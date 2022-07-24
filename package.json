@@ -1,0 +1,19 @@
+{
+  "name": "vogit",
+  "version": "0.0.1",
+  "description": "VoGit is filetransfert application using git system version control",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-session": "^1.17.2",
+    "request": "^2.88.2",
+    "simple-git": "^3.7.1",
+    "ssh2-sftp-client": "^9.0.0"
+  },
+  "author": "Shiro",
+  "license": "ISC"
+}
