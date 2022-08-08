@@ -9,6 +9,7 @@ class Connect{
         let username = req.body.username
         let password = req.body.password
 		let connected = req.session.connected
+		console.log("connexion ...")
         if(hostname && username && password){
 			try{
 			
