@@ -33,8 +33,8 @@ let router = require("./src/routers/index")(app)
 
 //start server 
 
-app.listen(process.env.PORT||3000,function(err){
+app.listen(process.env.PORT||3001,function(err){
     if(err) throw err
-    console.log(`server start at port ${process.env.PORT || 3000} ...`)
+    console.log(`server start at port ${process.env.PORT || 3001} ...`)
 })
 
