@@ -22,6 +22,13 @@ app.use(bodyparser.urlencoded({extended:false}))
 app.use(bodyparser.json())
 
 
+//set host to allow to access
+
+app.use(function(req,res,next){
+	res.setHeader("Access-Control-Allow-Origin","*")
+	next()
+})
+
 //set up public folder
 
 app.use(express.static(path.join(__dirname,"public")))
