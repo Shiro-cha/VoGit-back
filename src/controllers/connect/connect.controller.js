@@ -56,6 +56,7 @@ class Connect{
 					
 				}).catch(function(err){
 					//connexion error 
+						res.setStatus(401)
 						res.json({message:"error while trying to connect",isSuccess:false})
 						 
 						
