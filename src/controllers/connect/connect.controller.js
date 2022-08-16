@@ -12,6 +12,7 @@ class Connect{
 		let connected = req.session.connected
 		console.log("connexion ...")
         if(hostname && username && password){
+			console.log("hererererere!!!!")
 			try{
 			
 				client.connect({
