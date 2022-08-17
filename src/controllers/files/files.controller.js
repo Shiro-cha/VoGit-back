@@ -75,6 +75,7 @@ class Files{
 						}).catch(function(err){
 							
 							//if there are some error while listing files
+							if(err) throw err
 							client.end().then(function(){
 								res.json({message:"Folder not found or not a folder",isSuccess:false})
 							})
