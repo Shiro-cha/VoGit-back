@@ -89,6 +89,67 @@ class Svc{
 		}
 		
 	}
+	checkout(req,res){
+		let tags =  req.body.tags
+		let reposistoryDir = req.body.path
+		
+		if(tags && reposistoryDir){
+			
+			fs.readFile(path.join(__dirname,"../../../data/history.json"),function(err,data){
+				
+				if(err) throw err
+					if(err) throw err
+					let reposistoryAvaible = JSON.parse(data.toString())["local"]
+					let repoIsAvaible = false
+						
+						
+						for(let i = 0 ; i< reposistoryAvaible.length ; i++){
+							if(reposistoryAvaible[i].path===reposistoryDir){
+								repoIsAvaible = true
+								break
+							}
+						}
+						console.log("checking repos")
+						if(repoIsAvaible){
+							console.log("Log !!!!!!!!!")	
+							let git = simpleGit(reposistoryDir)
+							
+							//execute git checkout :tags
+							
+							git.checkout(tags,function(err){
+								if(!err){
+									git.log(function(err,history){
+										if(err) throw err
+											res.json(history)
+									})	
+								}else{
+									res.status(500)
+									res.json({message:"Error in the local file"})
+								}
+								
+							})
+					
+							
+							
+							
+							
+						}else{
+							res.status(500)
+							res.json({message:"Error in the local database"})
+						}
+						
+				
+			})
+			
+			
+		}else{
+			res.status(401)
+			res.json({message:"Field are not vaid"})	
+		}
+	}
+	switchTags(req,res){
+		let reason = req.body.reason || "-"
+	}
 } 
 
 module.exports = new Svc()

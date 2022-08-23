@@ -10,8 +10,10 @@ class Files{
 		//get session 
 		
 		fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
-			if(!err){
-				let session = JSON.parse(data.toString())
+			let stringData = data.toString()
+			if(!err && stringData){
+				
+				let session = JSON.parse(stringData)
 				if(session){
 					
 					//path to list the content
