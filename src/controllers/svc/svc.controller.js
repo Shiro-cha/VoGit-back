@@ -47,6 +47,21 @@ class Svc{
 		}
 		
 	}
+	
+	getContainers(req,res){
+		
+		fs.readFile(path.join(__dirname,"../../../data/history.json"),function(err,data){
+			let containers = JSON.parse(data.toString())
+			if(!err){
+				res.json(containers)
+			}else{
+				res.status(500)
+				res.json({message:"error on server"})
+			}
+		})
+		
+		
+	}
 
 	getHistories(req,res){
 		let reposistoryDir = req.body.path
