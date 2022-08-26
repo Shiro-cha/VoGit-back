@@ -8,7 +8,7 @@ class Svc{
 		const pathname = req.body.path
 		let git = simpleGit(pathname)
 		//init reposistory to a given path
-		if(path){ 
+		if(pathname){ 
 			git.init().then(function(r){
 				fs.readFile(path.join(__dirname,"../../../data/history.json"),function(err,data){
 					let myhistory =data.toString()
@@ -164,6 +164,65 @@ class Svc{
 	}
 	switchTags(req,res){
 		let reason = req.body.reason || "-"
+	}
+	
+	
+	//add container
+	
+	addContainer(req,res){
+		
+		
+		let reposistoryDir = req.body.path
+		let message = req.body.message
+		let files = []
+		if(reposistoryDir){
+			fs.readFile(path.join(__dirname,"../../../data/history.json"),function(err,data){
+				if(err) throw err
+					let reposistoryAvaible = JSON.parse(data.toString())["local"]
+					let repoIsAvaible = false
+					if(reposistoryAvaible){
+						for(let i = 0 ; i< reposistoryAvaible.length ; i++){
+							if(reposistoryAvaible[i].path===reposistoryDir){
+								repoIsAvaible = true
+								break
+							}
+						}
+						console.log("checking repos")
+						if(repoIsAvaible){
+							console.log("Log !!!!!!!!!")	
+							let git = simpleGit(reposistoryDir)
+							
+							git.add(files || ".",function(err,log){
+								
+								git.commit(`${message}`,function(err,sortie){
+									if(sortie){
+										git.log(function(err,history){
+											if(err) throw err
+												res.json(history)
+										})
+									}
+								})
+								
+								
+							})
+							
+							
+							
+						}else{
+							res.status(404)
+							res.json({message:"This container already exist yet",isEmpty:true})
+						}
+					}else{
+						res.status(500)
+						res.json({message:"Error in the local database"})
+					}
+			})
+		}else{
+			res.status(404)
+			res.json({message:"Container not found",isEmpty:true})
+		}
+		
+		
 	}
 } 
 
