@@ -291,9 +291,9 @@ class Download{
 															
 															if(isDirectory){
 																console.log(fullPath)
-															return	conn.downloadDir(fullPath , `/home/shiro/VoGit/download/${file}`)
+																return	conn.downloadDir(fullPath , `/home/${os.userInfo().username}/VoGit/download/${file}`)
 															}else{
-																return conn.get(fullPath , `/home/shiro/VoGit/download/${file}`)	
+																return conn.get(fullPath , `/home/${os.userInfo().username}/VoGit/download/${file}`)	
 															}
 															
 													//	}
@@ -301,7 +301,7 @@ class Download{
 													}).then(function(sortie){
 														console.log(sortie.toString())
 														
-															let git = new simpleGit(`/home/shiro/VoGit/download/`)
+															let git = new simpleGit(`/home/${os.userInfo().username}/VoGit/download/`)
 															git.init(function(err){
 																git.add(".",function(err){
 																	git.commit(message,function(err,sortie){
@@ -420,9 +420,9 @@ class Download{
 															
 															if(isDirectory){
 																console.log(fullPath)
-																return	conn.uploadDir(fullPath , `/home/shiro/VoGit/upload/${file}`)
+																return	conn.uploadDir(fullPath , `/home/${username}/VoGit/upload/${file}`)
 															}else{
-																return conn.put(fullPath , `/home/shiro/VoGit/download/${file}`)	
+																return conn.put(fullPath , `/home/${username}/VoGit/download/${file}`)	
 															}
 															
 														}).then(function(sortie){
