@@ -225,7 +225,8 @@ class Download{
         let file = req.body.file
         let pathname = req.body.path
         let message = req.body.message
-        if(file && pathname && message){
+        let isDirectory = req.body.isDirectory 
+        if(file && pathname && message && isDirectory){
 			
 			fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
 				if (err) throw err
@@ -285,24 +286,35 @@ class Download{
 						  								password:password
 													}).then(function(){
 														let fullPath = path.join(pathname,file)
-														if(fs.existsSync(`/home/shiro/VoGit/download/${file}`)){
-															fs.unlinkSync(`/home/shiro/VoGit/download/${file}`)
-														}
-														return conn.get(fullPath , `/home/shiro/VoGit/download/${file}`)
+														
+													//	if(fs.existsSync(`/home/shiro/VoGit/download/${file}`)){
+															
+															if(isDirectory){
+																console.log(fullPath)
+															return	conn.downloadDir(fullPath , `/home/shiro/VoGit/download/${file}`)
+															}else{
+																return conn.get(fullPath , `/home/shiro/VoGit/download/${file}`)	
+															}
+															
+													//	}
+														
 													}).then(function(sortie){
-														if(sortie.toString() === `/home/shiro/VoGit/download/${file}`){
+														console.log(sortie.toString())
+														
 															let git = new simpleGit(`/home/shiro/VoGit/download/`)
-															git.add(".",function(err){
-																git.commit(message,function(err,sortie){
-																	res.json({message:`Downloading "${file}" success`,isSuccess:true})
+															git.init(function(err){
+																git.add(".",function(err){
+																	git.commit(message,function(err,sortie){
+																		res.json({message:`Downloading "${file}" success`,isSuccess:true})
+																	})
 																})
 															})
+															
 																
-														}else{
-															res.status(500)
-															res.send("Error on download")
-														}
 														
+														
+													}).catch(function(err){
+														res.send("Error on download")
 													})
 												})
 												
@@ -343,6 +355,7 @@ class Download{
 		let file = req.body.file
 		let pathname = req.body.path
 		let message = req.body.message
+		let isDirectory = req.body.isDirectory
 		if(file && pathname && message){
 			
 			fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
@@ -366,8 +379,8 @@ class Download{
 								let repoIsAvaible = false
 								myhistory = JSON.parse(myhistory)
 								
-								for( let i = 0 ; i<myhistory["local"].length ; i++){
-									if(myhistory["local"][i].path===pathname){
+								for( let i = 0 ; i<myhistory["distant"].length ; i++){
+									if(myhistory["distant"][i].path===pathname){
 										repoIsAvaible=true
 										break
 									}
@@ -403,23 +416,49 @@ class Download{
 						   password:password
 														}).then(function(){
 															let fullPath = path.join(pathname,file)
-															if(fs.existsSync(`/home/shiro/VoGit/download/${file}`)){
-																fs.unlinkSync(`/home/shiro/VoGit/download/${file}`)
+															
+															
+															if(isDirectory){
+																console.log(fullPath)
+																return	conn.uploadDir(fullPath , `/home/shiro/VoGit/upload/${file}`)
+															}else{
+																return conn.put(fullPath , `/home/shiro/VoGit/download/${file}`)	
 															}
-															return conn.put(fullPath , `/home/shiro/VoGit/upload/${file}`)
+															
 														}).then(function(sortie){
-															if(sortie.toString() === `/home/shiro/VoGit/download/${file}`){
-																let git = new simpleGit(`/home/shiro/VoGit/download/`)
-																git.add(".",function(err){
-																	git.commit(message,function(err,sortie){
-																		res.json({message:`Downloading "${file}" success`,isSuccess:true})
+															
+															
+															//ssh connexion hereee
+															const conn = new Client()
+															//execute git checkout :tags with ssh connexion
+															conn.on("ready",function(){
+																console.log("Client::ready")
+																
+																conn.exec(`cd "/home/shiro/VoGit/upload/" && git init && git add ${"."} && git commit -m "${message}"`,function(err,stream){
+																	
+																	
+																	let logData = ""
+																	stream.on("data",function(data){
+																		logData = logData+data.toString()
+																		console.log(logData)
 																	})
+																	
+																	stream.on("close",function(code,signal){
+																		
+																		res.send("upload success")
+																	})
+																	
 																})
 																
-															}else{
-																res.status(500)
-																res.send("Error on download")
-															}
+																
+															}).connect({
+																port:22,
+						  hostname:hostname,
+						  username:username,
+						  password:password
+															})
+																
+															
 															
 														})
 												})

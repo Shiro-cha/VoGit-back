@@ -544,6 +544,227 @@ class SvcDistant{
 		
 		
 	}
+	checkout(req,res){
+		
+		
+		fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
+			let stringData = data.toString()
+			if (err) throw err
+				
+				if(stringData){
+					let session = JSON.parse(data.toString())
+					// initialize parameter for reposistory init
+					const pathname = req.body.path 
+					//initialize parameter for ssh connexion
+					let hostname = session.host.hostname
+					let username =session.host.username
+					let password = session.host.password
+					let logData = ""
+					// check if there are something in the session file
+					if(hostname && username && password && pathname){
+						//check history begin here
+						
+						
+						let message = req.body.message
+						let reposistoryDir = req.body.path
+						let tags = req.body.tags
+						let files = req.body.files || []
+						
+						if(reposistoryDir){
+							
+							fs.readFile(path.join(__dirname,"../../../data/history.json"),function(err,data){
+								
+								if(err) throw err
+									if(err) throw err
+										let reposistoryAvaible = JSON.parse(data.toString())["local"]
+										let repoIsAvaible = false
+										
+										
+										for(let i = 0 ; i< reposistoryAvaible.length ; i++){
+											if(reposistoryAvaible[i].path===reposistoryDir){
+												repoIsAvaible = true
+												break
+											}
+										}
+										console.log("checking repos")
+										if(repoIsAvaible){
+											console.log("Log !!!!!!!!!")	
+											
+											//ssh connexion hereee
+											const conn = new Client()
+											//execute git checkout :tags with ssh connexion
+											conn.on("ready",function(){
+												console.log("Client::ready")
+												console.log(files)
+												conn.exec(`cd "${pathname}" && git checkout ${tags}`,function(err,stream){
+													
+													
+													let logData = ""
+													stream.on("data",function(data){
+														logData = logData+data.toString()
+														console.log(logData)
+													})
+													
+													stream.on("close",function(code,signal){
+														console.log(code)
+														res.json({message:`Checkout to the tag ${tags}`})
+														
+													})
+													
+												})
+												
+												
+											}).connect({
+												port:22,
+					  hostname:hostname,
+					  username:username,
+					  password:password
+											})
+											
+											
+											
+										}else{
+											res.status(500)
+											res.json({message:"Error in the local database"})
+										}
+										
+							})
+							
+							
+						}else{
+							res.status(401)
+							res.json({message:"Field are not vaid"})	
+						}
+						
+						
+						
+					}else{
+						res.status(403)
+						res.json({message:"Not connected"})	
+					}
+					
+				}else{
+					res.status(500)
+					res.send("error on the server")
+				}
+				
+				
+				
+		})
+		
+		
+		
+	}
+	
+	
+	switchTags(req,res){
+		
+		
+		fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
+			let stringData = data.toString()
+			if (err) throw err
+				
+				if(stringData){
+					let session = JSON.parse(data.toString())
+					// initialize parameter for reposistory init
+					const pathname = req.body.path 
+					//initialize parameter for ssh connexion
+					let hostname = session.host.hostname
+					let username =session.host.username
+					let password = session.host.password
+					let logData = ""
+					// check if there are something in the session file
+					if(hostname && username && password && pathname){
+						//check history begin here
+						
+						
+						let message = req.body.message
+						let reposistoryDir = req.body.path
+						let files = req.body.files || []
+						
+						if(reposistoryDir){
+							
+							fs.readFile(path.join(__dirname,"../../../data/history.json"),function(err,data){
+								
+								if(err) throw err
+									if(err) throw err
+										let reposistoryAvaible = JSON.parse(data.toString())["local"]
+										let repoIsAvaible = false
+										
+										
+										for(let i = 0 ; i< reposistoryAvaible.length ; i++){
+											if(reposistoryAvaible[i].path===reposistoryDir){
+												repoIsAvaible = true
+												break
+											}
+										}
+										console.log("checking repos")
+										if(repoIsAvaible){
+											console.log("Log !!!!!!!!!")	
+											
+											//ssh connexion hereee
+											const conn = new Client()
+											//execute git checkout :tags with ssh connexion
+											conn.on("ready",function(){
+												console.log("Client::ready")
+												console.log(files)
+												conn.exec(`cd "${pathname}" && git switch -`,function(err,stream){
+													
+													
+													let logData = ""
+													stream.on("data",function(data){
+														logData = logData+data.toString()
+														console.log(logData)
+													})
+													
+													stream.on("close",function(code,signal){
+														console.log(code)
+														res.json({message:"Switch to the initial head"})
+														
+													})
+													
+												})
+												
+												
+											}).connect({
+												port:22,
+					  hostname:hostname,
+					  username:username,
+					  password:password
+											})
+											
+											
+											
+										}else{
+											res.status(500)
+											res.json({message:"Error in the local database"})
+										}
+										
+							})
+							
+							
+						}else{
+							res.status(401)
+							res.json({message:"Field are not vaid"})	
+						}
+						
+						
+						
+					}else{
+						res.status(403)
+						res.json({message:"Not connected"})	
+					}
+					
+				}else{
+					res.status(500)
+					res.send("error on the server")
+				}
+				
+				
+				
+		})
+		
+	}
 	
 	
 } 
