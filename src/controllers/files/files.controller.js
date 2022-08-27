@@ -27,7 +27,23 @@ class Files{
 					if(hostname){
 						host.hostname=hostname
 					}
-					const path = host.hostname==="localhost" ? req.body.path || os.userInfo().homedir : session.path.home
+					
+					
+					if(host.hostname==="localhost"){
+						
+						if(req.body.path){
+							path = req.body.path
+						}else{
+							path = os.userInfo().homedir
+						}
+						
+					}else{
+						if(req.body.path){
+							path = req.body.path
+						}else{
+							path = session.path.home
+						}
+					}
 					console.log(path)
 					//the host connexion information
 					
