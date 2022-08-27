@@ -167,7 +167,7 @@ class SvcDistant{
 													if (err) throw err
 														stream.on("data",function(data){
 															logData =logData+data.toString()
-															
+															console.log(logData)
 														})
 														stream.on("close",function(code,signal){
 															
