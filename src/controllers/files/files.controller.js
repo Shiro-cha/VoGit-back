@@ -2,7 +2,7 @@ const pathname = require("path")
 const fs = require("fs")
 const os = require("os")
 const Client = require("../../../api/ssh2-sftp-client")
-let client = new Client()
+
 
 class Files{
 
@@ -52,7 +52,7 @@ class Files{
 					//only if the client have set the host information
 					
 					if(host){
-						
+						let client = new Client()
 						client.connect(host).then(function(){
 							
 							//get the list of the remote path
