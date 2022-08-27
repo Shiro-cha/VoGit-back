@@ -1,5 +1,6 @@
 const path = require("path")
 const fs = require("fs")
+const os = require("os")
 const Client = require("../../../api/ssh2-sftp-client")
 let client = new Client()
 
@@ -17,7 +18,7 @@ class Files{
 				if(session){
 					
 					//path to list the content
-					const path = req.body.path || session.path.home
+					
 					let host = session.host
 					
 					// if user in not the remote
@@ -26,8 +27,8 @@ class Files{
 					if(hostname){
 						host.hostname=hostname
 					}
-					
-					console.log(host)
+					const path = host.hostname==="localhost" ? req.body.path || os.userInfo().homedir : session.path.home
+					console.log(path)
 					//the host connexion information
 					
 					
