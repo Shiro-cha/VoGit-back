@@ -44,7 +44,7 @@ class Files{
 							path = session.path.home
 						}
 					}
-					console.log(path)
+					console.log(host.hostname)
 					//the host connexion information
 					
 					
