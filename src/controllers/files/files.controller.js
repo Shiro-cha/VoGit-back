@@ -1,4 +1,4 @@
-const path = require("path")
+const pathname = require("path")
 const fs = require("fs")
 const os = require("os")
 const Client = require("../../../api/ssh2-sftp-client")
@@ -28,7 +28,7 @@ class Files{
 						host.hostname=hostname
 					}
 					
-					
+					let path = "localhost"
 					if(host.hostname==="localhost"){
 						
 						if(req.body.path){
