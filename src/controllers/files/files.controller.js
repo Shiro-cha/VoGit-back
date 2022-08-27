@@ -27,7 +27,7 @@ class Files{
 						host.hostname=hostname
 					}
 					
-					
+					console.log(host)
 					//the host connexion information
 					
 					
