@@ -10,7 +10,7 @@ class Files{
 		
 		//get session 
 		
-		fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
+		fs.readFile(pathname.join(__dirname,"../../../data/session.json"),function(err,data){
 			let stringData = data.toString()
 			if(!err && stringData){
 				
