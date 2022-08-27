@@ -83,11 +83,13 @@ class Svc{
 					if(repoIsAvaible){
 						console.log("Log !!!!!!!!!")	
 						let git = simpleGit(reposistoryDir)
-						
-						git.log(function(err,history){
-						if(err) throw err
-						res.json(history)
+						git.init(function(err){
+							git.log(function(err,history){
+								if(err) throw err
+									res.json(history)
+							})	
 						})
+						
 						
 						
 

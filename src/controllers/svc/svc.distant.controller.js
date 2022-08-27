@@ -163,7 +163,7 @@ class SvcDistant{
 												console.log("Client::ready")
 												
 												//execute the shell command ` cd /path/to/new/reposistroy && git log`
-												conn.exec(`cd "${pathname}" && git log `,function(err,stream){
+												conn.exec(`cd "${pathname}" && git init && git log `,function(err,stream){
 													if (err) throw err
 														stream.on("data",function(data){
 															logData =logData+data.toString()
@@ -171,7 +171,7 @@ class SvcDistant{
 														})
 														stream.on("close",function(code,signal){
 															
-															if(code===0){
+							
 																
 																//close connexion
 																conn.end().on("close",function(){
@@ -207,16 +207,7 @@ class SvcDistant{
 																	
 																})
 																
-																
-															}else if(code===1){
-																res.status(403)
-																res.json({message:"file not found"})
-																
-																//the other return status code are unkown	
-															}else{
-																res.status(403)
-																res.json({message:"unkwon error"})
-															}
+			
 															
 														})
 														
