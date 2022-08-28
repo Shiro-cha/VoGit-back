@@ -8,9 +8,10 @@ class Svc{
 	
 	init(req,res){
 		const pathname = req.body.path
+		const message = req.body.message
 		let git = simpleGit(pathname)
 		//init reposistory to a given path
-		if(pathname){ 
+		if(pathname,message){ 
 			git.init().then(function(r){
 				fs.readFile(path.join(__dirname,"../../../data/history.json"),function(err,data){
 					let myhistory =data.toString()
@@ -26,7 +27,7 @@ class Svc{
 					if(fileAlreadyExist){
 						res.send("Container already exist")
 					}else{
-						myhistory["local"].push({path:pathname})
+						myhistory["local"].push({path:pathname,message:message})
 						if( myhistory["local"]){
 							fs.writeFile(path.join(__dirname,"../../../data/history.json"),JSON.stringify(myhistory),function(err){
 								if(err) throw err

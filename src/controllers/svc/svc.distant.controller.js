@@ -12,7 +12,8 @@ class SvcDistant{
 			if (err) throw err
 			let session = JSON.parse(data.toString())
 			// initialize parameter for reposistory init
-			const pathname = req.body.path 
+			const pathname = req.body.path
+			const message = req.body.message
 			//initialize parameter for ssh connexion
 			let hostname = session.host.hostname
 			let username =session.host.username
