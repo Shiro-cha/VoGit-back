@@ -280,6 +280,7 @@ class SvcDistant{
 							if(err) throw err
 								if(err) throw err
 									let reposistoryAvaible = JSON.parse(data.toString())["distant"]
+									console.log(reposistoryAvaible)
 									let repoIsAvaible = false
 									
 									
