@@ -127,7 +127,7 @@ class Svc{
 								break
 							}
 						}
-						console.log("checking repos")
+						console.log("checking repos fdsf")
 						if(repoIsAvaible){
 							console.log("Log !!!!!!!!!")	
 							let git = simpleGit(reposistoryDir)
