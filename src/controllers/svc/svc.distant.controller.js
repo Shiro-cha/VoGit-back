@@ -289,7 +289,7 @@ class SvcDistant{
 											break
 										}
 									}
-									console.log("checking repos")
+									console.log(reposistoryDir)
 									if(repoIsAvaible){
 										console.log("Log !!!!!!!!!")	
 										
