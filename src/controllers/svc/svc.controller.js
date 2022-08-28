@@ -135,6 +135,7 @@ class Svc{
 							//execute git checkout :tags
 							
 							git.checkout(tags,function(err){
+								console.log(err)
 								if(!err){
 									git.log(function(err,history){
 										if(err) throw err
