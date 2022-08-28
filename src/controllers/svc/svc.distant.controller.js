@@ -254,6 +254,7 @@ class SvcDistant{
 		
 		fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
 			let stringData = data.toString()
+			console.log("hellllllllo")
 			if (err) throw err
 				
 			if(stringData){
