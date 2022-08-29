@@ -7,7 +7,7 @@ const os = require("os")
 class Svc{
 	
 	init(req,res){
-		const pathname = req.body.path
+		const pathname = req.body.path 
 		const message = req.body.message
 		let git = simpleGit(pathname)
 		//init reposistory to a given path
