@@ -257,7 +257,7 @@ class Download{
 								}
 								
 								
-								if(repoIsAvaible){
+								
 									
 									let conn = new Client()
 									//execute git checkout :tags with ssh connexion
@@ -332,10 +332,10 @@ class Download{
 										password:password
 									})
 									
-								}else{
-									res.status(404)
-									res.json({message:"Container not found"})
-								}
+// 								}else{
+// 									res.status(404)
+// 									res.json({message:"Container not found"})
+// 								}
 								
 							})
 							
