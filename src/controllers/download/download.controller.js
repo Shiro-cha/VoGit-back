@@ -286,7 +286,7 @@ class Download{
 						  								password:password
 													}).then(function(){
 														let fullPath = path.join(pathname,file)
-														
+														console.log(fullPath)
 													//	if(fs.existsSync(`/home/shiro/VoGit/download/${file}`)){
 															
 															if(isDirectory){
