@@ -226,7 +226,7 @@ class Download{
         let pathname = req.body.path
         let message = req.body.message
         let isDirectory = req.body.isDirectory 
-        if(file && pathname && message && isDirectory){
+        if(file && pathname && message){
 			
 			fs.readFile(path.join(__dirname,"../../../data/session.json"),function(err,data){
 				if (err) throw err
